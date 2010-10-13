@@ -222,8 +222,8 @@
     </PreBuildEvent>
     <PostBuildEvent>cd "$(ProjectDir)"
 mkdir "$(ProjectDir)$(OutDir)en-US"
-"$(ProjectDir)Resgen\Resgen" "$(ProjectDir)Properties\Resources.resx"
-"$(ProjectDir)Resgen\Al" /embed:"$(ProjectDir)Properties\Resources.resources" /culture:en-US /out:"$(ProjectDir)$(OutDir)en-US\GitPlugin.resources.dll"</PostBuildEvent>
+"C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\Resgen" "$(ProjectDir)Properties\Resources.resx"
+"C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\Al" /embed:"$(ProjectDir)Properties\Resources.resources" /culture:en-US /out:"$(ProjectDir)$(OutDir)en-US\GitPlugin.resources.dll"</PostBuildEvent>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
