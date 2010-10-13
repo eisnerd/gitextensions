@@ -32,6 +32,7 @@
     <Property Id="SSHCLIENT" Value="PuTTY" Secure="yes"/>
     <WixVariable Id="WixUIDialogBmp" Value="dialog.bmp"/>
     <WixVariable Id="WixUIBannerBmp" Value="banner.bmp"/>
+    <WixVariable Id="WixUICostingPopupOptOut" Value="0" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
@@ -110,18 +111,6 @@
           KeyPath="yes"/>
         
         <?foreach ShellExFileName in GitExtensionsShellEx32.dll?>
-          <?include RegisterShellExtension.wxi?>
-        <?endforeach?>
-      </Component>
-
-      <Component Id="GitExtensionsShellEx64.dll" Guid="*" Win64="yes">
-        <Condition>VersionNT64</Condition>
-        <File
-          Name="GitExtensionsShellEx64.dll"
-          Source="..\SimpleExt\ReleaseMinDependency64\GitExtensionsShellEx.dll"
-          KeyPath="yes"/>
-
-        <?foreach ShellExFileName in GitExtensionsShellEx64.dll?>
           <?include RegisterShellExtension.wxi?>
         <?endforeach?>
       </Component>
@@ -409,7 +398,6 @@
 
       <Feature Id="ShellExtension" Title="Windows Explorer integration" Level="1">
         <ComponentRef Id="GitExtensionsShellEx32.dll"/>
-        <ComponentRef Id="GitExtensionsShellEx64.dll"/>
       </Feature>
 
       <?foreach VsVersion in $(var.VsVersions)?>
