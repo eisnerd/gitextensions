@@ -12,7 +12,7 @@ namespace GitUI
         {
             if (GitCommands.GitCommands.InTheMiddleOfConflictedMerge())
             {
-                if (MessageBox.Show("There are unresolved mergeconflicts, solve conflicts now?", "Merge conflicts", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                //if (MessageBox.Show("There are unresolved mergeconflicts, solve conflicts now?", "Merge conflicts", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     SolveMergeConflicts();
                     return true;

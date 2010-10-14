@@ -18,12 +18,12 @@ namespace GitUI
         TranslationString mergeConflictIsSubmodule = new TranslationString("The selected mergeconflict is a submodule. Mark conflict as resolved?");
         TranslationString mergeConflictIsSubmoduleCaption = new TranslationString("Submodule");
         TranslationString fileIsBinary = new TranslationString("The selected file appears to be a binary file." + Environment.NewLine + "Are you sure you want to open this file in {0}?");
-        TranslationString askMergeConflictSolved = new TranslationString("Is the mergeconflict solved?");
+        TranslationString askMergeConflictSolved = new TranslationString("Is the merge conflict solved?");
         TranslationString askMergeConflictSolvedCaption = new TranslationString("Conflict solved?");
-        TranslationString useModifiedOrDeletedFile = new TranslationString("Use modified or deleted file?");
+        TranslationString useModifiedOrDeletedFile = new TranslationString("Use the modified or deleted file?");
         TranslationString modifiedButton = new TranslationString("Modified");
-        TranslationString useCreatedOrDeletedFile = new TranslationString("Use created or deleted file?");
-        TranslationString noMergeTool = new TranslationString("There is no mergetool configured. Please go to settings and set a mergetool!");
+        TranslationString useCreatedOrDeletedFile = new TranslationString("Use the created or deleted file?");
+        TranslationString noMergeTool = new TranslationString("There is no merge tool configured; please set a merge tool in the settings dialog.");
         TranslationString stageFilename = new TranslationString("Stage {0}");
 
         public FormResolveConflicts()
@@ -83,7 +83,7 @@ namespace GitUI
 
             if (!GitCommands.GitCommands.InTheMiddleOfPatch() && !GitCommands.GitCommands.InTheMiddleOfRebase() && !GitCommands.GitCommands.InTheMiddleOfConflictedMerge() && ThereWhereMergeConflicts)
             {
-                if (MessageBox.Show(allConflictsResolved.Text, allConflictsResolvedCaption.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                //if (MessageBox.Show(allConflictsResolved.Text, allConflictsResolvedCaption.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     GitUICommands.Instance.StartCommitDialog();
                 }
