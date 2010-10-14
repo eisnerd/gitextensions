@@ -16,6 +16,8 @@ namespace GitUI
             this.Revision = Revision;
 
             InitializeComponent(); Translate();
+            this.AutoCommit.Checked = true;
+            this.Pick.Focus();
         }
 
         public GitRevision Revision { get; set; }
