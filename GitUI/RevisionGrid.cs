@@ -816,6 +816,7 @@ namespace GitUI
             checkoutLoose.ForEach(CreateTag.Items.Remove);
 
             var revision = GetRevision(LastRow);
+            var current = GitCommands.GitCommands.GetCurrentCheckout();
 
             var tagDropDown = new ToolStripDropDown();
             var branchDropDown = new ToolStripDropDown();
@@ -833,7 +834,7 @@ namespace GitUI
                     toolStripItem.Tag = head;
                     tagDropDown.Items.Add(toolStripItem);
                 }
-                else if (head.IsHead || head.IsRemote)
+                else if (current != head.Guid && (head.IsHead || head.IsRemote))
                 {
                     toolStripItem = new ToolStripMenuItem("Merge with " + head.Name);
                     toolStripItem.Click += ToolStripItemClickMergeBranch;

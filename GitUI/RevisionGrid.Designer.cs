@@ -44,6 +44,7 @@ namespace GitUI
             this.createNewBranchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteBranchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.mergeBranchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rebaseOnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetCurrentBranchToHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -153,18 +154,19 @@ namespace GitUI
             // CreateTag
             // 
             this.CreateTag.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.checkoutBranchToolStripMenuItem,
+            this.mergeBranchToolStripMenuItem,
+            this.resetCurrentBranchToHereToolStripMenuItem,
+            this.toolStripSeparator5,
             this.createTagToolStripMenuItem,
             this.deleteTagToolStripMenuItem,
             this.createNewBranchToolStripMenuItem,
             this.deleteBranchToolStripMenuItem,
             this.toolStripSeparator2,
-            this.mergeBranchToolStripMenuItem,
-            this.rebaseOnToolStripMenuItem,
-            this.resetCurrentBranchToHereToolStripMenuItem,
-            this.checkoutBranchToolStripMenuItem,
-            this.checkoutRevisionToolStripMenuItem,
-            this.revertCommitToolStripMenuItem,
             this.cherryPickCommitToolStripMenuItem,
+            this.checkoutRevisionToolStripMenuItem,
+            this.rebaseOnToolStripMenuItem,
+            this.revertCommitToolStripMenuItem,
             this.toolStripSeparator1,
             this.showBranchesToolStripMenuItem,
             this.showRevisionGraphToolStripMenuItem,
@@ -212,6 +214,11 @@ namespace GitUI
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(251, 6);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(251, 6);
             // 
             // mergeBranchToolStripMenuItem
             // 
@@ -528,6 +535,7 @@ namespace GitUI
         private System.Windows.Forms.ToolStripMenuItem showBranchesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem revertCommitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showRevisionGraphToolStripMenuItem;
         private System.Windows.Forms.Panel NoGit;
