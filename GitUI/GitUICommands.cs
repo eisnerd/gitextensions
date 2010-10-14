@@ -716,5 +716,25 @@ namespace GitUI
 
             return false;
         }
+
+        public bool StartFetchAll()
+        {
+            return new FormProcess("fetch -n --all --progress").ShowDialogOnError();
+        }
+
+        public bool StartRefreshTags()
+        {
+            string command = "tag -d";
+            foreach (var head in GitCommands.GitCommands.GetRemoteHeads("origin", true, false))
+                if (GitCommand(string.Format("tag -n1 -l \"{0}\"", head.Name) ?? "").Contains("version built on"))
+                    command += " \"" + head.Name + '"';
+
+            List<string> cmds = new List<string>();
+            if (command.Length > 6)
+                cmds.Add(command);
+            cmds.Add("fetch --tags --all --progress");
+
+            return new FormProcess(cmds).ShowDialogOnError();
+        }
     }
 }

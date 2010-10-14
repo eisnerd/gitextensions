@@ -575,7 +575,13 @@ namespace GitUI
 
         private void PullToolStripMenuItemClick(object sender, EventArgs e)
         {
-            if (GitUICommands.Instance.StartPullDialog())
+            if (GitUICommands.Instance.StartFetchAll())
+                Initialize();
+        }
+
+        private void RefreshTagsToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            if (GitUICommands.Instance.StartRefreshTags())
                 Initialize();
         }
 
