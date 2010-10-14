@@ -22,6 +22,9 @@ namespace GitUI
             InitializeComponent();
 
             Translate();
+
+            this.AutoCommit.Checked = true;
+            this.Pick.Focus();
         }
 
         protected override void OnLoad(EventArgs e)
