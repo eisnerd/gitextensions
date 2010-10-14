@@ -19,43 +19,35 @@ namespace GitExtensions
             Application.SetCompatibleTextRenderingDefault(false);
 
             string[] args = Environment.GetCommandLineArgs();
-            using (var formSplash = new FormSplash())
+            Settings.LoadSettings();
+            if (Settings.RunningOnWindows())
             {
-                formSplash.Show();
-                formSplash.SetAction("Load settings");
-                Settings.LoadSettings();
-                if (Settings.RunningOnWindows())
-                {
-                    //Quick HOME check:
-                    formSplash.SetAction("Check home path");
-                    FormFixHome.CheckHomePath();
-                }
-                //Register plugins
-                formSplash.SetAction("Load plugins");
-                PluginLoader.Load();
+                //Quick HOME check:
+                FormFixHome.CheckHomePath();
+            }
+            //Register plugins
+            PluginLoader.Load();
 
-                try
+            try
+            {
+                if (Application.UserAppDataRegistry == null ||
+                    Application.UserAppDataRegistry.GetValue("checksettings") == null ||
+                    !Application.UserAppDataRegistry.GetValue("checksettings").ToString().Equals("false", StringComparison.OrdinalIgnoreCase) ||
+                    string.IsNullOrEmpty(Settings.GitCommand))
                 {
-                    if (Application.UserAppDataRegistry == null ||
-                        Application.UserAppDataRegistry.GetValue("checksettings") == null ||
-                        !Application.UserAppDataRegistry.GetValue("checksettings").ToString().Equals("false", StringComparison.OrdinalIgnoreCase) ||
-                        string.IsNullOrEmpty(Settings.GitCommand))
+                    using (var settings = new FormSettings())
                     {
-                        formSplash.SetAction("Check settings");
-                        using (var settings = new FormSettings())
+                        if (!settings.CheckSettings())
                         {
-                            if (!settings.CheckSettings())
-                            {
-                                FormSettings.AutoSolveAllSettings();
-                                GitUICommands.Instance.StartSettingsDialog();
-                            }
+                            FormSettings.AutoSolveAllSettings();
+                            GitUICommands.Instance.StartSettingsDialog();
                         }
                     }
                 }
-                catch
-                {
-                    // TODO: remove catch-all
-                }
+            }
+            catch
+            {
+                // TODO: remove catch-all
             }
 
             if (args.Length >= 3)
