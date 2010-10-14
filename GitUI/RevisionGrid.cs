@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using GitCommands;
 using GitUI.Tag;
 using ResourceManager.Translation;
+using Utils;
 
 namespace GitUI
 {
@@ -805,10 +806,14 @@ namespace GitUI
                 FilterToolStripMenuItemClick(null, null);
         }
 
+        List<ToolStripItem> mergeLoose = new List<ToolStripItem>(), checkoutLoose = new List<ToolStripItem>();
         private void CreateTagOpening(object sender, CancelEventArgs e)
         {
             if (Revisions.RowCount < LastRow || LastRow < 0 || Revisions.RowCount == 0)
                 return;
+
+            mergeLoose.ForEach(CreateTag.Items.Remove);
+            checkoutLoose.ForEach(CreateTag.Items.Remove);
 
             var revision = GetRevision(LastRow);
 
@@ -820,30 +825,47 @@ namespace GitUI
 
             foreach (var head in revision.Heads)
             {
+                ToolStripItem toolStripItem;
                 if (head.IsTag)
                 {
-                    ToolStripItem toolStripItem = new ToolStripMenuItem(head.Name);
+                    toolStripItem = new ToolStripMenuItem(head.Name);
                     toolStripItem.Click += ToolStripItemClick;
+                    toolStripItem.Tag = head;
                     tagDropDown.Items.Add(toolStripItem);
                 }
                 else if (head.IsHead || head.IsRemote)
                 {
-                    ToolStripItem toolStripItem = new ToolStripMenuItem(head.Name);
+                    toolStripItem = new ToolStripMenuItem("Merge with " + head.Name);
                     toolStripItem.Click += ToolStripItemClickMergeBranch;
+                    toolStripItem.Tag = head;
+                    CreateTag.Items.Insert(CreateTag.Items.IndexOf(mergeBranchToolStripMenuItem), toolStripItem);
+                    mergeLoose.Add(toolStripItem);
+
+                    toolStripItem = new ToolStripMenuItem(head.Name);
+                    toolStripItem.Click += ToolStripItemClickMergeBranch;
+                    toolStripItem.Tag = head;
                     mergeBranchDropDown.Items.Add(toolStripItem);
 
                     toolStripItem = new ToolStripMenuItem(head.Name);
                     toolStripItem.Click += ToolStripItemClickRebaseBranch;
+                    toolStripItem.Tag = head;
                     rebaseDropDown.Items.Add(toolStripItem);
 
-                    if (head.IsHead && !head.IsRemote)
+                    if (!head.IsRemote)
                     {
                         toolStripItem = new ToolStripMenuItem(head.Name);
                         toolStripItem.Click += ToolStripItemClickBranch;
+                        toolStripItem.Tag = head;
                         branchDropDown.Items.Add(toolStripItem);
 
+                        toolStripItem = new ToolStripMenuItem("Checkout " + head.Name);
+                        toolStripItem.Click += ToolStripItemClickCheckoutBranch;
+                        toolStripItem.Tag = head;
+                        CreateTag.Items.Insert(CreateTag.Items.IndexOf(checkoutBranchToolStripMenuItem), toolStripItem);
+                        checkoutLoose.Add(toolStripItem);
                         toolStripItem = new ToolStripMenuItem(head.Name);
                         toolStripItem.Click += ToolStripItemClickCheckoutBranch;
+                        toolStripItem.Tag = head;
                         checkoutBranchDropDown.Items.Add(toolStripItem);
                     }
                 }
@@ -856,11 +878,19 @@ namespace GitUI
             deleteBranchToolStripMenuItem.Visible = branchDropDown.Items.Count > 0;
 
             checkoutBranchToolStripMenuItem.DropDown = checkoutBranchDropDown;
-            checkoutBranchToolStripMenuItem.Visible = checkoutBranchDropDown.Items.Count > 0;
+            {
+                bool inline = checkoutBranchDropDown.Items.Count < 2;
+                checkoutBranchToolStripMenuItem.Visible = !inline;
+                foreach (var t in checkoutLoose) t.Visible = inline;
+            }
             checkoutBranchToolStripMenuItem.Text = "Checkout " + (checkoutBranchDropDown.Items.Count == 1 ? checkoutBranchDropDown.Items[0].Text : "branch");
 
             mergeBranchToolStripMenuItem.DropDown = mergeBranchDropDown;
-            mergeBranchToolStripMenuItem.Visible = mergeBranchDropDown.Items.Count > 0;
+            {
+                bool inline = mergeBranchDropDown.Items.Count < 2;
+                mergeBranchToolStripMenuItem.Visible = !inline;
+                foreach (var t in mergeLoose) t.Visible = inline;
+            }
             mergeBranchToolStripMenuItem.Text = "Merge with " + (mergeBranchDropDown.Items.Count == 1 ? mergeBranchDropDown.Items[0].Text : "branch");
 
             rebaseOnToolStripMenuItem.DropDown = rebaseDropDown;
@@ -874,6 +904,8 @@ namespace GitUI
             if (toolStripItem == null)
                 return;
 
+            var head = toolStripItem.Tag as GitHead;
+
             new FormProcess(GitCommands.GitCommands.DeleteTagCmd(toolStripItem.Text)).ShowDialog();
             ForceRefreshRevisions();
         }
@@ -885,6 +917,8 @@ namespace GitUI
             if (toolStripItem == null)
                 return;
 
+            var head = toolStripItem.Tag as GitHead;
+            
             GitUICommands.Instance.StartDeleteBranchDialog(toolStripItem.Text);
 
             ForceRefreshRevisions();
@@ -897,10 +931,13 @@ namespace GitUI
             if (toolStripItem == null)
                 return;
 
-            new FormProcess("checkout \"" + toolStripItem.Text + "\"").ShowDialog();
+            var head = toolStripItem.Tag as GitHead;
 
-            ForceRefreshRevisions();
-            OnChangedCurrentBranch();
+            if (GitUICommands.Instance.StartCheckoutBranch(head))
+            {
+                ForceRefreshRevisions();
+                OnChangedCurrentBranch();
+            }
         }
 
         private void ToolStripItemClickMergeBranch(object sender, EventArgs e)
@@ -910,7 +947,9 @@ namespace GitUI
             if (toolStripItem == null)
                 return;
 
-            GitUICommands.Instance.StartMergeBranchDialog(toolStripItem.Text);
+            var head = toolStripItem.Tag as GitHead;
+
+            GitUICommands.Instance.StartMergeBranchDialog(head.Name);
 
             ForceRefreshRevisions();
         }
@@ -918,6 +957,7 @@ namespace GitUI
         private void ToolStripItemClickRebaseBranch(object sender, EventArgs e)
         {
             var toolStripItem = sender as ToolStripItem;
+            var head = toolStripItem.Tag as GitHead;
 
             if (toolStripItem == null)
                 return;

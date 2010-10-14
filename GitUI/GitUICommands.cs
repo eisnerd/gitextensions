@@ -198,6 +198,17 @@ namespace GitUI
             return true;
         }
 
+        public bool StartCheckoutBranch(GitHead head)
+        {
+            string command = "checkout \"{0}\"";
+            string target = head.Name;
+            if (head.IsRemote)
+                StartCheckoutBranchDialog();
+            else
+                new FormProcess(string.Format(command, head.Name, target)).ShowDialog();
+            return true;
+        }
+
         public bool StartCheckoutBranchDialog()
         {
             if (!InvokeEvent(PreCheckoutBranch))

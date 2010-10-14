@@ -2011,6 +2011,14 @@ namespace GitCommands
             return GetHeads(tags, true);
         }
 
+        public static GitHead GetHead(string name, bool tags)
+        {
+            foreach (GitHead head in GetHeads(tags))
+                if (head.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    return head;
+            return null;
+        }
+
         public static List<GitHead> GetHeads(bool tags, bool branches)
         {
             var tree = GetTree(tags, branches);

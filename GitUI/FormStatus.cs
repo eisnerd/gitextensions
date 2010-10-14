@@ -101,7 +101,7 @@ namespace GitUI
             Ok.Enabled = false;
         }
 
-        public void ShowDialogOnError()
+        public bool ShowDialogOnError()
         {
             Visible = false;
             KeepDialogOpen.Visible = false;
@@ -110,6 +110,7 @@ namespace GitUI
             // Just hiding it still seems to draw one frame of the control
             WindowState = FormWindowState.Minimized;
             ShowDialog();
+            return !ErrorOccured();
         }
 
         private void Ok_Click(object sender, EventArgs e)

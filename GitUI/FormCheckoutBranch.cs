@@ -86,12 +86,7 @@ namespace GitUI
 
         private bool LocalBranchExists(string name)
         {
-            foreach (GitHead head in GitCommands.GitCommands.GetHeads(false))
-            {
-                if (head.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
-                    return true;
-            }
-            return false;
+            return GitCommands.GitCommands.GetHead(name, false) != null;
         }
 
 

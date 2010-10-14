@@ -336,6 +336,7 @@
     <Compile Include="FormDeleteBranch.Designer.cs">
       <DependentUpon>FormDeleteBranch.cs</DependentUpon>
     </Compile>
+    <Compile Include="StringUtils.cs" />
     <Compile Include="Tag\FormDeleteTag.cs">
       <SubType>Form</SubType>
     </Compile>
