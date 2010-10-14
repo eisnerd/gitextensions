@@ -857,9 +857,11 @@ namespace GitUI
 
             checkoutBranchToolStripMenuItem.DropDown = checkoutBranchDropDown;
             checkoutBranchToolStripMenuItem.Visible = checkoutBranchDropDown.Items.Count > 0;
+            checkoutBranchToolStripMenuItem.Text = "Checkout " + (checkoutBranchDropDown.Items.Count == 1 ? checkoutBranchDropDown.Items[0].Text : "branch");
 
             mergeBranchToolStripMenuItem.DropDown = mergeBranchDropDown;
             mergeBranchToolStripMenuItem.Visible = mergeBranchDropDown.Items.Count > 0;
+            mergeBranchToolStripMenuItem.Text = "Merge with " + (mergeBranchDropDown.Items.Count == 1 ? mergeBranchDropDown.Items[0].Text : "branch");
 
             rebaseOnToolStripMenuItem.DropDown = rebaseDropDown;
             rebaseOnToolStripMenuItem.Visible = rebaseDropDown.Items.Count > 0;
@@ -954,8 +956,16 @@ namespace GitUI
 
         private void CheckoutBranchToolStripMenuItemClick(object sender, EventArgs e)
         {
-            if (GitUICommands.Instance.StartCheckoutBranchDialog())
+            if (checkoutBranchToolStripMenuItem.DropDown.Items.Count == 1)
+                checkoutBranchToolStripMenuItem.DropDown.Items[0].PerformClick();
+            else if (GitUICommands.Instance.StartCheckoutBranchDialog())
                 RefreshRevisions();
+        }
+
+        private void MergeBranchToolStripMenuItemClick(object sender, System.EventArgs e)
+        {
+            if (mergeBranchToolStripMenuItem.DropDown.Items.Count == 1)
+                mergeBranchToolStripMenuItem.DropDown.Items[0].PerformClick();
         }
 
         private void CherryPickCommitToolStripMenuItemClick(object sender, EventArgs e)
