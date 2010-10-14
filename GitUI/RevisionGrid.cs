@@ -1013,9 +1013,12 @@ namespace GitUI
         {
             if (Revisions.RowCount <= LastRow || LastRow < 0)
                 return;
+            
+            //var frm = new FormCherryPickCommitSmall(GetRevision(LastRow));
+            //frm.ShowDialog();
+            new FormProcess(GitCommands.GitCommands.CherryPickCmd(GetRevision(LastRow).Guid, true)).ShowDialog();
+            MergeConflictHandler.HandleMergeConflicts();
 
-            var frm = new FormCherryPickCommitSmall(GetRevision(LastRow));
-            frm.ShowDialog();
             RefreshRevisions();
         }
 
