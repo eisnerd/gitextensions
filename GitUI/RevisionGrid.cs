@@ -857,17 +857,17 @@ namespace GitUI
                         toolStripItem.Click += ToolStripItemClickBranch;
                         toolStripItem.Tag = head;
                         branchDropDown.Items.Add(toolStripItem);
-
-                        toolStripItem = new ToolStripMenuItem("Checkout " + head.Name);
-                        toolStripItem.Click += ToolStripItemClickCheckoutBranch;
-                        toolStripItem.Tag = head;
-                        CreateTag.Items.Insert(CreateTag.Items.IndexOf(checkoutBranchToolStripMenuItem), toolStripItem);
-                        checkoutLoose.Add(toolStripItem);
-                        toolStripItem = new ToolStripMenuItem(head.Name);
-                        toolStripItem.Click += ToolStripItemClickCheckoutBranch;
-                        toolStripItem.Tag = head;
-                        checkoutBranchDropDown.Items.Add(toolStripItem);
                     }
+
+                    toolStripItem = new ToolStripMenuItem("Checkout " + head.Name);
+                    toolStripItem.Click += ToolStripItemClickCheckoutBranch;
+                    toolStripItem.Tag = head;
+                    CreateTag.Items.Insert(CreateTag.Items.IndexOf(checkoutBranchToolStripMenuItem), toolStripItem);
+                    checkoutLoose.Add(toolStripItem);
+                    toolStripItem = new ToolStripMenuItem(head.Name);
+                    toolStripItem.Click += ToolStripItemClickCheckoutBranch;
+                    toolStripItem.Tag = head;
+                    checkoutBranchDropDown.Items.Add(toolStripItem);
                 }
             }
 

@@ -201,11 +201,33 @@ namespace GitUI
         public bool StartCheckoutBranch(GitHead head)
         {
             string command = "checkout \"{0}\"";
-            string target = head.Name;
+            string target = head.LocalName;
             if (head.IsRemote)
-                StartCheckoutBranchDialog();
-            else
-                new FormProcess(string.Format(command, head.Name, target)).ShowDialog();
+            {
+                if (GitCommands.GitCommands.GetHead(target, false) != null)
+                {
+                    if (GitCommands.GitCommands.GetHead(target = string.Concat(head.Remote, "_", head.LocalName), false) != null)
+                        return false;
+                    switch (MessageBox.Show("Checkout and update (merge) the existing local branch?\n Choose no to create a new branch " + target + " instead.", "Local tracking branch exists", MessageBoxButtons.YesNoCancel))
+                    {
+                        case DialogResult.Yes:
+                            if (new FormProcess(string.Format(command, head.LocalName)).ShowDialogOnError())
+                                command = "merge \"{0}\"";
+                            else
+                                return false;
+                            break;
+                        case DialogResult.No:
+                            command += " --track -b \"{1}\"";
+                            break;
+                        case DialogResult.Cancel:
+                            return false;
+                    }
+                }
+                else
+                    command += " --track -b \"{1}\"";
+            }
+
+            new FormProcess(string.Format(command, head.Name, target)).ShowDialog();
             return true;
         }
 
