@@ -817,6 +817,7 @@ namespace GitUI
 
             var revision = GetRevision(LastRow);
             var current = GitCommands.GitCommands.GetCurrentCheckout();
+            var selected = GitCommands.GitCommands.GetSelectedBranch();
 
             var tagDropDown = new ToolStripDropDown();
             var branchDropDown = new ToolStripDropDown();
@@ -834,23 +835,26 @@ namespace GitUI
                     toolStripItem.Tag = head;
                     tagDropDown.Items.Add(toolStripItem);
                 }
-                else if (current != head.Guid && (head.IsHead || head.IsRemote))
+                else if ((head.IsHead || head.IsRemote) && (current != head.Guid || selected != head.LocalName))
                 {
-                    toolStripItem = new ToolStripMenuItem("Merge with " + head.Name);
-                    toolStripItem.Click += ToolStripItemClickMergeBranch;
-                    toolStripItem.Tag = head;
-                    CreateTag.Items.Insert(CreateTag.Items.IndexOf(mergeBranchToolStripMenuItem), toolStripItem);
-                    mergeLoose.Add(toolStripItem);
+                    if (current != head.Guid && revision.Heads.Find(h => head.IsRemote? head.LocalName == "HEAD" && head.Remote == h.Remote:h != head && h.IsRemote && h.LocalName == head.LocalName) == null)
+                    {
+                        toolStripItem = new ToolStripMenuItem("Merge with " + head.Name);
+                        toolStripItem.Click += ToolStripItemClickMergeBranch;
+                        toolStripItem.Tag = head;
+                        CreateTag.Items.Insert(CreateTag.Items.IndexOf(mergeBranchToolStripMenuItem), toolStripItem);
+                        mergeLoose.Add(toolStripItem);
 
-                    toolStripItem = new ToolStripMenuItem(head.Name);
-                    toolStripItem.Click += ToolStripItemClickMergeBranch;
-                    toolStripItem.Tag = head;
-                    mergeBranchDropDown.Items.Add(toolStripItem);
+                        toolStripItem = new ToolStripMenuItem(head.Name);
+                        toolStripItem.Click += ToolStripItemClickMergeBranch;
+                        toolStripItem.Tag = head;
+                        mergeBranchDropDown.Items.Add(toolStripItem);
 
-                    toolStripItem = new ToolStripMenuItem(head.Name);
-                    toolStripItem.Click += ToolStripItemClickRebaseBranch;
-                    toolStripItem.Tag = head;
-                    rebaseDropDown.Items.Add(toolStripItem);
+                        toolStripItem = new ToolStripMenuItem(head.Name);
+                        toolStripItem.Click += ToolStripItemClickRebaseBranch;
+                        toolStripItem.Tag = head;
+                        rebaseDropDown.Items.Add(toolStripItem);
+                    }
 
                     if (!head.IsRemote)
                     {
@@ -860,15 +864,19 @@ namespace GitUI
                         branchDropDown.Items.Add(toolStripItem);
                     }
 
-                    toolStripItem = new ToolStripMenuItem("Checkout " + head.Name);
-                    toolStripItem.Click += ToolStripItemClickCheckoutBranch;
-                    toolStripItem.Tag = head;
-                    CreateTag.Items.Insert(CreateTag.Items.IndexOf(checkoutBranchToolStripMenuItem), toolStripItem);
-                    checkoutLoose.Add(toolStripItem);
-                    toolStripItem = new ToolStripMenuItem(head.Name);
-                    toolStripItem.Click += ToolStripItemClickCheckoutBranch;
-                    toolStripItem.Tag = head;
-                    checkoutBranchDropDown.Items.Add(toolStripItem);
+                    if (!head.IsRemote || revision.Heads.Find(h => h != head && !h.IsRemote && h.LocalName == head.LocalName || head.LocalName == "HEAD" && head.Remote == h.Remote) == null)
+                    {
+                        toolStripItem = new ToolStripMenuItem("Checkout " + head.Name);
+                        toolStripItem.Click += ToolStripItemClickCheckoutBranch;
+                        toolStripItem.Tag = head;
+                        CreateTag.Items.Insert(CreateTag.Items.IndexOf(checkoutBranchToolStripMenuItem), toolStripItem);
+                        checkoutLoose.Add(toolStripItem);
+
+                        toolStripItem = new ToolStripMenuItem(head.Name);
+                        toolStripItem.Click += ToolStripItemClickCheckoutBranch;
+                        toolStripItem.Tag = head;
+                        checkoutBranchDropDown.Items.Add(toolStripItem);
+                    }
                 }
             }
 
@@ -880,7 +888,7 @@ namespace GitUI
 
             checkoutBranchToolStripMenuItem.DropDown = checkoutBranchDropDown;
             {
-                bool inline = checkoutBranchDropDown.Items.Count < 2;
+                bool inline = checkoutBranchDropDown.Items.Count < 3;
                 checkoutBranchToolStripMenuItem.Visible = !inline;
                 foreach (var t in checkoutLoose) t.Visible = inline;
             }
