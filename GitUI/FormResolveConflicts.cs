@@ -85,7 +85,7 @@ namespace GitUI
             {
                 //if (MessageBox.Show(allConflictsResolved.Text, allConflictsResolvedCaption.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    GitUICommands.Instance.StartCommitDialog();
+                    GitUICommands.Instance.StartCommitDialog(true);
                 }
 
             }

@@ -314,23 +314,58 @@ namespace GitUI
             return true;
         }
 
-
-        public bool StartCommitDialog()
+        public void StartCommitDialog(bool block)
         {
-            if (!InvokeEvent(PreCommit))
-                return true;
-
-            FormCommit form = new FormCommit();
-            form.ShowDialog();
-
-            InvokeEvent(PostCommit);
-
-            if (!form.NeedRefresh)
-                return false;
-
-            return true;
+            using (System.Threading.EventWaitHandle wait = new System.Threading.EventWaitHandle(false, System.Threading.EventResetMode.ManualReset))
+            {
+                StartCommitDialog(null, () => wait.Set(), false);
+                if (block)
+                    wait.WaitOne();
+            }
         }
 
+        public void StartCommitDialog(Action refresh)
+        {
+            StartCommitDialog(form => refresh());
+        }
+
+        public void StartCommitDialog(Action<FormCommit> refresh)
+        {
+            StartCommitDialog(refresh, null, true);
+        }
+
+        public void StartCommitDialog(Action<FormCommit> refresh, Action finish, bool alwaysInTaskbar)
+        {
+            if (!InvokeEvent(PreCommit))
+                refresh(null);
+            else
+            {
+                FormCommit form = new FormCommit();
+                form.Show();
+                if (alwaysInTaskbar)
+                    form.ShowInTaskbar = true;
+                form.FormClosed += (s, e) =>
+                {
+                    try
+                    {
+                        InvokeEvent(PostCommit);
+                    }
+                    finally
+                    {
+                        try
+                        {
+                            if (form.NeedRefresh && refresh != null)
+                                refresh(form);
+                        }
+                        finally
+                        {
+                            if (finish != null)
+                                finish();
+                        }
+                    }
+                };
+            }
+        }
 
         public bool StartInitializeDialog()
         {
@@ -656,7 +691,6 @@ namespace GitUI
             new FormPluginSettings().ShowDialog();
             return true;
         }
-        
 
         private static void UpdateSubmodulesRecursive()
         {

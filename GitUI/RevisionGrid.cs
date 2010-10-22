@@ -703,8 +703,7 @@ namespace GitUI
 
         private void CommitClick(object sender, EventArgs e)
         {
-            GitUICommands.Instance.StartCommitDialog();
-            RefreshRevisions();
+            GitUICommands.Instance.StartCommitDialog(RefreshRevisions);
         }
 
         private void GitIgnoreClick(object sender, EventArgs e)

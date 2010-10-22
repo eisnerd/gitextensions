@@ -137,7 +137,7 @@ namespace GitExtensions
                         GitUICommands.Instance.StartCloneDialog();
                         return;
                     case "commit":
-                        GitUICommands.Instance.StartCommitDialog();
+                        GitUICommands.Instance.StartCommitDialog(true);
                         return;
                     case "filehistory":
                         if (args.Length > 2)

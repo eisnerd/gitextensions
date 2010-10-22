@@ -557,8 +557,7 @@ namespace GitUI
 
         private void CommitToolStripMenuItemClick(object sender, EventArgs e)
         {
-            if (GitUICommands.Instance.StartCommitDialog())
-                Initialize();
+            GitUICommands.Instance.StartCommitDialog(Initialize);
         }
 
         private void InitNewRepositoryToolStripMenuItemClick(object sender, EventArgs e)

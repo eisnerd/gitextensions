@@ -84,7 +84,7 @@ namespace GitUIPluginInterfaces
         bool StartCherryPickDialog();
         bool StartCloneDialog();
         bool StartCommandLineProcessDialog(string command, string arguments);
-        bool StartCommitDialog();
+        void StartCommitDialog(bool block);
         bool StartCompareRevisionsDialog();
         bool StartCreateBranchDialog();
         bool StartCreateTagDialog();
