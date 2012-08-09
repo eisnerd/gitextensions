@@ -313,9 +313,9 @@ namespace GitUI
 
         #endregion
 
-        public void ShowDialogWhenChanges()
+        public void ShowWhenChanges()
         {
-            ShowDialogWhenChanges(null);
+            ShowWhenChanges(null, false);
         }
 
         private void ComputeUnstagedFiles(Action<List<GitItemStatus>> onComputed)
@@ -328,7 +328,7 @@ namespace GitUI
         }
 
 
-        public void ShowDialogWhenChanges(IWin32Window owner)
+        public void ShowWhenChanges(IWin32Window owner, bool blocking)
         {
             ComputeUnstagedFiles((allChangedFiles) =>
                 {
@@ -336,7 +336,10 @@ namespace GitUI
                     {
                         LoadUnstagedOutput(allChangedFiles);
                         Initialize(false);
-                        ShowDialog(owner);
+                        if (blocking)
+                            ShowDialog(owner);
+                        else
+                            Show();
                     }
                     else
                         Close();
@@ -707,6 +710,9 @@ namespace GitUI
                     GitUICommands.Instance.StartPushDialog(this, true);
                 }
 
+                if (Committed != null)
+                    Committed();
+
                 if (Settings.CloseCommitDialogAfterCommit)
                 {
                     Close();
@@ -729,6 +735,8 @@ namespace GitUI
                 MessageBox.Show(this, string.Format("Exception: {0}", e.Message));
             }
         }
+
+        public event Action Committed;
 
         private bool ValidCommitMessage()
         {

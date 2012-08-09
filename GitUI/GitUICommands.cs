@@ -488,41 +488,67 @@ namespace GitUI
             return StartSvnCloneDialog(null);
         }
 
-        public bool StartCommitDialog(IWin32Window owner, bool showWhenNoChanges)
+        public void StartCommitDialog(bool showWhenNoChanges = false, bool blocking = false)
         {
-            if (!RequiresValidWorkingDir(owner))
-                return false;
-
-            if (!InvokeEvent(owner, PreCommit))
-                return true;
-
-            var form = new FormCommit();
-            if (showWhenNoChanges)
-                form.ShowDialogWhenChanges(owner);
-            else
-                form.ShowDialog(owner);
-
-            InvokeEvent(owner, PostCommit);
-
-            if (!form.NeedRefresh)
-                return false;
-
-            return true;
+            StartCommitDialog(showWhenNoChanges: showWhenNoChanges, blocking: blocking);
         }
 
-        public bool StartCommitDialog(IWin32Window owner)
+        public void StartCommitDialog(IWin32Window owner = null, bool showWhenNoChanges = false, bool blocking = false)
         {
-            return StartCommitDialog(owner, false);
+            StartCommitDialog(() => { }, owner: owner, showWhenNoChanges: showWhenNoChanges, blocking: blocking);
         }
 
-        public bool StartCommitDialog(bool showWhenNoChanges)
+        public void StartCommitDialog(Action refresh, IWin32Window owner = null, bool showWhenNoChanges = false, bool blocking = false)
         {
-            return StartCommitDialog(null, showWhenNoChanges);
+            StartCommitDialog(form => refresh(), owner: owner, showWhenNoChanges: showWhenNoChanges, blocking: blocking);
         }
 
-        public bool StartCommitDialog()
+        public void StartCommitDialog(Action<FormCommit> refresh, Action finish = null, bool alwaysInTaskbar = true, IWin32Window owner = null, bool showWhenNoChanges = false, bool blocking = false)
         {
-            return StartCommitDialog(null, false);
+            if (RequiresValidWorkingDir(owner))
+                if (!InvokeEvent(owner, PreCommit))
+                    refresh(null);
+                else
+                {
+                    var form = new FormCommit();
+                    form.ShowInTaskbar |= alwaysInTaskbar;
+
+                    Action Committed = () =>
+                    {
+                        if (form.NeedRefresh && refresh != null)
+                        {
+                            refresh(form);
+                            form.NeedRefresh = false;
+                        }
+                    };
+                    form.Committed += Committed;
+                    form.FormClosed += (s, e) =>
+                    {
+                        try
+                        {
+                            InvokeEvent(owner, PostCommit);
+                        }
+                        finally
+                        {
+                            try
+                            {
+                                Committed();
+                            }
+                            finally
+                            {
+                                if (finish != null)
+                                    finish();
+                            }
+                        }
+                    };
+
+                    if (showWhenNoChanges)
+                        form.ShowWhenChanges(owner, blocking);
+                    else if (blocking)
+                        form.ShowDialog(owner);
+                    else
+                        form.Show();
+                }
         }
 
         public bool StartSvnDcommitDialog(IWin32Window owner)

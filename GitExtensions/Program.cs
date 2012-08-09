@@ -400,7 +400,7 @@ namespace GitExtensions
 
         private static void Commit(Dictionary<string, string> arguments)
         {
-            GitUICommands.Instance.StartCommitDialog(arguments.ContainsKey("quiet"));
+            GitUICommands.Instance.StartCommitDialog(arguments.ContainsKey("quiet"), true);
         }
 
         private static void Push(Dictionary<string, string> arguments)
