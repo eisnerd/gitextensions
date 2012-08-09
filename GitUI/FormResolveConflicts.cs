@@ -153,7 +153,6 @@ namespace GitUI
             if (!Settings.Module.InTheMiddleOfPatch() && !Settings.Module.InTheMiddleOfRebase() &&
                 !Settings.Module.InTheMiddleOfConflictedMerge() && _thereWhereMergeConflicts && _offerCommit)
             {
-                if (MessageBox.Show(this, allConflictsResolved.Text, allConflictsResolvedCaption.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     GitUICommands.Instance.StartCommitDialog(this, true);
                 }

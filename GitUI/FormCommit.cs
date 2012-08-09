@@ -1447,8 +1447,6 @@ namespace GitUI
                 return;
             }
 
-            if (MessageBox.Show(this, _amendCommit.Text, _amendCommitCaption.Text, MessageBoxButtons.YesNo) ==
-                DialogResult.Yes)
                 DoCommit(true, false);
         }
 

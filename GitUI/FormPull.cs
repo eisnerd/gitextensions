@@ -128,9 +128,6 @@ namespace GitUI
         {
             Settings.Module.RunGitRealCmd("mergetool");
 
-            if (MessageBox.Show(this, _allMergeConflictSolvedQuestion.Text, _allMergeConflictSolvedQuestionCaption.Text,
-                                MessageBoxButtons.YesNo) != DialogResult.Yes)
-                return;
             new FormCommit().ShowDialog(this);
         }
 
