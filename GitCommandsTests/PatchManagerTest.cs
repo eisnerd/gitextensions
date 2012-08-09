@@ -47,7 +47,7 @@ namespace GitCommandsTests
             expectedPatch.AppendTextLine("-asdkjaldskjlaksd");
             expectedPatch.AppendTextLine("+changed again");
 
-            manager.LoadPatch(expectedPatch.Text, false);
+            manager.LoadPatch(expectedPatch.Text, false, GitCommands.Settings.FilesEncoding);
            
             Patch createdPatch = manager.Patches.First();
             Assert.AreEqual(expectedPatch.Text, createdPatch.Text);
@@ -59,7 +59,7 @@ namespace GitCommandsTests
         {
             PatchManager manager = NewManager();
             var testPatch = Encoding.UTF8.GetString(TestResource.TestPatch);
-            manager.LoadPatch(testPatch, false);
+            manager.LoadPatch(testPatch, false, GitCommands.Settings.FilesEncoding);
 
             Assert.AreEqual(12, manager.Patches.Count);
         }
@@ -69,7 +69,7 @@ namespace GitCommandsTests
         {
             PatchManager manager = NewManager();
             var testPatch = Encoding.UTF8.GetString(TestResource.TestPatch);
-            manager.LoadPatch(testPatch, false);
+            manager.LoadPatch(testPatch, false, GitCommands.Settings.FilesEncoding);
 
             Assert.AreEqual(12, manager.Patches.Select(p => p.FileNameA).Distinct().Count());
             Assert.AreEqual(12, manager.Patches.Select(p => p.FileNameB).Distinct().Count());
@@ -80,7 +80,7 @@ namespace GitCommandsTests
         {
             PatchManager manager = NewManager();
             var testPatch = Encoding.UTF8.GetString(TestResource.TestPatch);
-            manager.LoadPatch(testPatch, false);
+            manager.LoadPatch(testPatch, false, GitCommands.Settings.FilesEncoding);
             
             Assert.AreEqual(1, manager.Patches.Count(p => p.File == Patch.FileType.Binary));
         }
@@ -90,7 +90,7 @@ namespace GitCommandsTests
         {
             PatchManager manager = NewManager();
             var testPatch = Encoding.UTF8.GetString(TestResource.TestPatch);
-            manager.LoadPatch(testPatch, false);
+            manager.LoadPatch(testPatch, false, GitCommands.Settings.FilesEncoding);
 
             Assert.AreEqual(1, manager.Patches.Count(p => p.Type == Patch.PatchType.NewFile));
         }
@@ -100,7 +100,7 @@ namespace GitCommandsTests
         {
             PatchManager manager = NewManager();
             var testPatch = Encoding.UTF8.GetString(TestResource.TestPatch);
-            manager.LoadPatch(testPatch, false);
+            manager.LoadPatch(testPatch, false, GitCommands.Settings.FilesEncoding);
 
             Assert.AreEqual(1, manager.Patches.Count(p => p.Type == Patch.PatchType.DeleteFile));
         }
@@ -110,7 +110,7 @@ namespace GitCommandsTests
         {
             PatchManager manager = NewManager();
             var testPatch = Encoding.UTF8.GetString(TestResource.TestPatch);
-            manager.LoadPatch(testPatch, false);
+            manager.LoadPatch(testPatch, false, GitCommands.Settings.FilesEncoding);
 
             Assert.AreEqual(10, manager.Patches.Count(p => p.Type == Patch.PatchType.ChangeFile));
         }
