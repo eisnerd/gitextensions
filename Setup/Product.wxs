@@ -148,18 +148,6 @@
         <?endforeach?>
       </Component>
 
-      <Component Id="GitExtensionsShellEx64.dll" Guid="*" Win64="yes">
-        <Condition>VersionNT64</Condition>
-        <File
-          Name="GitExtensionsShellEx64.dll"
-          Source="..\SimpleExt\Release-x64\GitExtensionsShellEx64.dll"
-          KeyPath="yes"/>
-
-        <?foreach ShellExFileName in GitExtensionsShellEx64.dll?>
-          <?include RegisterShellExtension.wxi?>
-        <?endforeach?>
-      </Component>
-
       <Component Id="checksettings.reg" Guid="*">
         <RegistryValue Name="checksettings" Value="true" Root="HKCU" Key="$(var.AppRegKey)" Type="string"/>
       </Component>
@@ -647,7 +635,6 @@
 
       <Feature Id="ShellExtension" Title="Windows Explorer integration" Level="1">
         <ComponentRef Id="GitExtensionsShellEx32.dll"/>
-        <ComponentRef Id="GitExtensionsShellEx64.dll"/>
       </Feature>
 
       <?foreach VsVersion in $(var.VsVersions)?>
