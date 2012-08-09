@@ -53,6 +53,21 @@ namespace GitCommands
             set { SafeSet("usermenulocationy", value, ref _UserMenuLocationY); }
         }
 
+        private static bool? _cherryPickSilently;
+        public static bool CherryPickSilently
+        {
+            get { return SafeGet("cherrypicksilently", true, ref _cherryPickSilently); }
+            set { SafeSet("cherrypicksilently", value, ref _cherryPickSilently); }
+        }
+
+
+        private static bool? _cherryPickAddsReference;
+        public static bool CherryPickAddsReference
+        {
+            get { return SafeGet("cherrypickaddsreference", true, ref _cherryPickAddsReference); }
+            set { SafeSet("cherrypickaddsreference", value, ref _cherryPickAddsReference); }
+        }
+
         private static bool? _stashKeepIndex;
         public static bool StashKeepIndex
         {

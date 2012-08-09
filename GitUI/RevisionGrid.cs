@@ -1819,21 +1819,26 @@ namespace GitUI
             var revisions = GetSelectedRevisions(SortDirection.Descending);
 
             FormCherryPickCommitSmall prevForm = null;
-
             try
             {
                 foreach (var r in revisions)
-                {
-                    var frm = new FormCherryPickCommitSmall(r);
-                    if (prevForm != null)
+                    if (Settings.CherryPickSilently && !Settings.Module.IsMerge(r.Guid))
                     {
-                        frm.CopyOptions(prevForm);
-                        prevForm.Dispose();
+                        FormProcess.ShowDialog(this, GitCommandHelpers.CherryPickCmd(r.Guid, true, Settings.CherryPickAddsReference ? "-x" : ""));
+                        MergeConflictHandler.HandleMergeConflicts(this, true);
                     }
-                    prevForm = frm;
-                    if (frm.ShowDialog(this) != DialogResult.OK)
-                        break;
-                }
+                    else
+                    {
+                        var frm = new FormCherryPickCommitSmall(r);
+                        if (prevForm != null)
+                        {
+                            frm.CopyOptions(prevForm);
+                            prevForm.Dispose();
+                        }
+                        prevForm = frm;
+                        if (frm.ShowDialog(this) != DialogResult.OK)
+                            break;
+                    }
             }
             finally
             {

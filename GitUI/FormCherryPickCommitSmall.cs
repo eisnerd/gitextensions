@@ -57,6 +57,7 @@ namespace GitUI
                     checkAddReference.Location.Y - (ParentsList.Height + ParentsLabel.Height));
             }
 
+            checkAddReference.Checked = Settings.CherryPickAddsReference;
         }
 
         public GitRevision Revision { get; set; }
