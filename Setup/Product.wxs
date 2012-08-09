@@ -379,7 +379,7 @@
         <RegistryValue Name="gitssh" Value="" Root="HKCU" Key="$(var.AppRegKey)" Type="string"/>
       </Component>
       <Component Id="gitssh_putty.reg" Guid="2cb64776-8035-413e-9266-4ad9e5ecbad3">
-        <Condition>SSHCLIENT="PuTTY"</Condition>
+        <Condition>SSHCLIENT="OpenSSH"</Condition>
         <RegistryValue Name="gitssh" Value="[INSTALLDIR]PuTTY\plink.exe" Root="HKCU" Key="$(var.AppRegKey)" Type="string"/>
       </Component>
       <Component Id="plink.reg" Guid="*">
@@ -541,7 +541,7 @@
         </Feature>
       </Feature>
 
-      <Feature Id="Icons" Title="Extra application icons" Level="2">
+      <Feature Id="Icons" Title="Extra application icons" Level="1">
         <ComponentRef Id="Blue.ico"/>
         <ComponentRef Id="Green.ico"/>
         <ComponentRef Id="Purple.ico"/>
@@ -594,46 +594,46 @@
         </Feature>
       </Feature>
 
-      <Feature Id="Translation" Title="Translations" Level="1">
-        <Feature Id="Dutch" Title="Dutch" Level="1">
+      <Feature Id="Translation" Title="Translations" Level="2">
+        <Feature Id="Dutch" Title="Dutch" Level="2">
           <ComponentRef Id="Dutch.xml"/>
           <ComponentRef Id="Dutch.gif"/>
         </Feature>
-        <Feature Id="German" Title="German" Level="1">
+        <Feature Id="German" Title="German" Level="2">
           <ComponentRef Id="German.xml"/>
           <ComponentRef Id="German.gif"/>
         </Feature>
-        <Feature Id="Francais" Title="Francais" Level="1">
+        <Feature Id="Francais" Title="Francais" Level="2">
           <ComponentRef Id="Francais.xml"/>
           <ComponentRef Id="Francais.gif"/>
         </Feature>
-        <Feature Id="Japanese" Title="Japanese" Level="1">
+        <Feature Id="Japanese" Title="Japanese" Level="2">
           <ComponentRef Id="Japanese.xml"/>
           <ComponentRef Id="Japanese.gif"/>
         </Feature>
-        <Feature Id="Italiano" Title="Italiano" Level="1">
+        <Feature Id="Italiano" Title="Italiano" Level="2">
           <ComponentRef Id="Italiano.xml"/>
           <ComponentRef Id="Italiano.gif"/>
         </Feature>
-        <Feature Id="SimplifiedChinese" Title="Simplified Chinese" Level="1">
+        <Feature Id="SimplifiedChinese" Title="Simplified Chinese" Level="2">
           <ComponentRef Id="SimplifiedChinese.xml"/>
           <ComponentRef Id="SimplifiedChinese.gif"/>
         </Feature>
-        <Feature Id="TraditionalChinese" Title="Traditional Chinese" Level="1">
+        <Feature Id="TraditionalChinese" Title="Traditional Chinese" Level="2">
           <ComponentRef Id="TraditionalChinese.xml"/>
           <ComponentRef Id="TraditionalChinese.gif"/>
         </Feature>
-        <Feature Id="Spanish" Title="Spanish" Level="1">
+        <Feature Id="Spanish" Title="Spanish" Level="2">
           <ComponentRef Id="Spanish.xml"/>
           <ComponentRef Id="Spanish.gif"/>
         </Feature>
-        <Feature Id="Russian" Title="Russian" Level="1">
+        <Feature Id="Russian" Title="Russian" Level="2">
           <ComponentRef Id="Russian.xml"/>
           <ComponentRef Id="Russian.gif"/>
         </Feature>        
       </Feature>
 
-      <Feature Id="ShellExtension" Title="Windows Explorer integration" Level="1">
+      <Feature Id="ShellExtension" Title="Windows Explorer integration" Level="2">
         <ComponentRef Id="GitExtensionsShellEx32.dll"/>
       </Feature>
 
