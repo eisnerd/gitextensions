@@ -2357,7 +2357,7 @@ namespace GitUI
             if (sender is ToolStripMenuItem)
             {
                 ToolStripMenuItem item = sender as ToolStripMenuItem;
-                if (item.DropDown != null && item.DropDown.Items.Count == 1)
+                if (item.DropDown != null && item.DropDown.Items.Count > 0)
                     item.DropDown.Items[0].PerformClick();
             }
         }

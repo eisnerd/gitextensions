@@ -414,7 +414,7 @@ namespace GitUI
             this.manipulateCommitToolStripMenuItem.Name = "manipulateCommitToolStripMenuItem";
             this.manipulateCommitToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.manipulateCommitToolStripMenuItem.Text = "Manipulate commit";
-
+            this.manipulateCommitToolStripMenuItem.Click += new System.EventHandler(toolStripMenuWithOneItem_Click);
             // 
             // revertCommitToolStripMenuItem
             // 
