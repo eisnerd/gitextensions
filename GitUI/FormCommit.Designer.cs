@@ -95,6 +95,7 @@ namespace GitUI
             this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolbarStaged = new GitUI.ToolStripEx();
+            this.stageChunkOfFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStageAllItem = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStageItem = new System.Windows.Forms.ToolStripButton();
@@ -177,8 +178,9 @@ namespace GitUI
             // UnstagedFileContext
             // 
             this.UnstagedFileContext.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resetChanges,
+            this.stageChunkOfFileToolStripMenuItem,
             this.resetPartOfFileToolStripMenuItem,
+            this.resetChanges,
             this.toolStripSeparator8,
             this.viewFileHistoryToolStripItem,
             this.toolStripSeparator7,
@@ -698,6 +700,13 @@ namespace GitUI
             this.toolbarStaged.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.toolbarStaged.Size = new System.Drawing.Size(397, 28);
             this.toolbarStaged.TabIndex = 13;
+            // 
+            // stageChunkOfFileToolStripMenuItem
+            // 
+            this.stageChunkOfFileToolStripMenuItem.Name = "stageChunkOfFileToolStripMenuItem";
+            this.stageChunkOfFileToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.stageChunkOfFileToolStripMenuItem.Text = "Stage chunk of file";
+            this.stageChunkOfFileToolStripMenuItem.Click += new System.EventHandler(this.StageChunkOfFileToolStripMenuItemClick);
             // 
             // toolStageAllItem
             // 
@@ -1303,6 +1312,7 @@ namespace GitUI
         private Button Cancel;
         private ToolStripButton toolStageItem;
         private ToolStripButton toolUnstageItem;
+        private ToolStripMenuItem stageChunkOfFileToolStripMenuItem;
         private ToolStripButton toolRefreshItem;
         private ToolStripSeparator toolStripSeparator6;
         private ToolStripSeparator toolStripSeparator8;

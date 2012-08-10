@@ -86,6 +86,7 @@ namespace GitUI
         private readonly TranslationString _resetSelectedChangesText =
             new TranslationString("Are you sure you want to reset all selected files?");
 
+        private readonly TranslationString _stageChunkOfFileCaption = new TranslationString("Stage chunk of file");
         private readonly TranslationString _resetStageChunkOfFileCaption = new TranslationString("Unstage chunk of file");
         private readonly TranslationString _stageDetails = new TranslationString("Stage Details");
         private readonly TranslationString _stageFiles = new TranslationString("Stage {0} files");
@@ -1217,6 +1218,22 @@ namespace GitUI
                 return;
             FormProcess.ShowDialog(this, "clean -f");
             Initialize();
+        }
+
+        private void StageChunkOfFileToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            if (Unstaged.SelectedItems.Count != 1)
+            {
+                MessageBox.Show(_onlyStageChunkOfSingleFileError.Text, _stageChunkOfFileCaption.Text);
+                return;
+            }
+
+            foreach (var gitItemStatus in Unstaged.SelectedItems)
+            {
+                Settings.Module.RunRealCmd(Settings.GitCommand,
+                                                   string.Format("add -p \"{0}\"", gitItemStatus.Name));
+                Initialize();
+            }
         }
 
         private void ShowIgnoredFilesToolStripMenuItemClick(object sender, EventArgs e)
