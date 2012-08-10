@@ -212,21 +212,20 @@ namespace GitUI
             this.bisectSkipRevisionToolStripMenuItem,
             this.stopBisectToolStripMenuItem,
             this.bisectSeparator,
+            this.mergeBranchToolStripMenuItem,
+            this.rebaseOnToolStripMenuItem,
+            this.checkoutBranchToolStripMenuItem,
+            this.manipulateCommitToolStripMenuItem,
+            this.resetCurrentBranchToHereToolStripMenuItem,
+            this.checkoutRevisionToolStripMenuItem,
+            this.renameBranchToolStripMenuItem,
+            this.toolStripSeparator1,
             this.copyToClipboardToolStripMenuItem,
-            this.toolStripSeparator5,
             this.createTagToolStripMenuItem,
             this.deleteTagToolStripMenuItem,
             this.createNewBranchToolStripMenuItem,
             this.deleteBranchToolStripMenuItem,
             this.toolStripSeparator2,
-            this.mergeBranchToolStripMenuItem,
-            this.rebaseOnToolStripMenuItem,
-            this.resetCurrentBranchToHereToolStripMenuItem,
-            this.renameBranchToolStripMenuItem,
-            this.checkoutBranchToolStripMenuItem,
-            this.checkoutRevisionToolStripMenuItem,
-            this.manipulateCommitToolStripMenuItem,
-            this.toolStripSeparator1,
             this.showBranchesToolStripMenuItem,
             this.showRevisionGraphToolStripMenuItem,
             this.drawNonrelativesGrayToolStripMenuItem,
@@ -408,13 +407,14 @@ namespace GitUI
             // manipulateCommitToolStripMenuItem
             // 
             this.manipulateCommitToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.revertCommitToolStripMenuItem,
             this.cherryPickCommitToolStripMenuItem,
+            this.revertCommitToolStripMenuItem,
             this.fixupCommitToolStripMenuItem,
             this.squashCommitToolStripMenuItem});
             this.manipulateCommitToolStripMenuItem.Name = "manipulateCommitToolStripMenuItem";
             this.manipulateCommitToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.manipulateCommitToolStripMenuItem.Text = "Manipulate commit";
+
             // 
             // revertCommitToolStripMenuItem
             // 

@@ -1571,6 +1571,12 @@ namespace GitUI
             var revision = GetRevision(LastRow);
             var current = Settings.Module.GetCurrentCheckout();
 
+            {
+                var topItem = revision.Guid == current? revertCommitToolStripMenuItem: cherryPickCommitToolStripMenuItem;
+                manipulateCommitToolStripMenuItem.DropDownItems.Remove(topItem);
+                manipulateCommitToolStripMenuItem.DropDownItems.Insert(0, topItem);
+            }
+
             var tagDropDown = new ContextMenuStrip();
             var deleteBranchDropDown = new ContextMenuStrip();
             var checkoutBranchDropDown = new ContextMenuStrip();
@@ -1630,26 +1636,25 @@ namespace GitUI
                 }
             }
 
-            //if there is no branch to rebase on, then allow user to rebase on selected commit 
-            if (rebaseDropDown.Items.Count == 0 && !currentBranchPointsToRevision)
-            {
-                ToolStripItem toolStripItem = new ToolStripMenuItem("Rebase on revision");
-                toolStripItem.Tag = revision;
-                toolStripItem.Click += ToolStripItemClickRebaseBranch;
-                CreateTag.Items.Insert(CreateTag.Items.IndexOf(rebaseOnToolStripMenuItem), toolStripItem);
-                rebaseLoose.Add(toolStripItem);
-            }
-
             //if there is no branch to merge, then let user to merge selected commit into current branch 
             if (mergeBranchDropDown.Items.Count == 0 && !currentBranchPointsToRevision)
             {
                 ToolStripItem toolStripItem = new ToolStripMenuItem("Merge with revision");
                 toolStripItem.Click += ToolStripItemClickMergeBranch;
                 toolStripItem.Tag = revision;
-                CreateTag.Items.Insert(CreateTag.Items.IndexOf(mergeBranchToolStripMenuItem), toolStripItem);
+                CreateTag.Items.Insert(CreateTag.Items.IndexOf(checkoutRevisionToolStripMenuItem), toolStripItem);
                 mergeLoose.Add(toolStripItem);
             }
 
+            //if there is no branch to rebase on, then allow user to rebase on selected commit 
+            if (rebaseDropDown.Items.Count == 0 && !currentBranchPointsToRevision)
+            {
+                ToolStripItem toolStripItem = new ToolStripMenuItem("Rebase on revision");
+                toolStripItem.Tag = revision;
+                toolStripItem.Click += ToolStripItemClickRebaseBranch;
+                CreateTag.Items.Insert(CreateTag.Items.IndexOf(checkoutRevisionToolStripMenuItem), toolStripItem);
+                rebaseLoose.Add(toolStripItem);
+            }
 
             foreach (var head in allBranches)
             {
